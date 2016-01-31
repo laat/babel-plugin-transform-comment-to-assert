@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-comment-to-assert",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "lib/index.js",
   "scripts": {
     "clean": "rm -rf lib",
@@ -18,7 +18,7 @@
   "license": "MIT",
   "repository" : {
     "type" : "git",
-    "url" : "https://github.com/laat/babel-plugin-transform-rename-import.git"
+    "url" : "https://github.com/laat/babel-plugin-transform-comment-to-assert.git"
   },
   "devDependencies": {
     "babel-cli": "^6.4.0",
