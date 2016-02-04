@@ -28,7 +28,9 @@ export default function visitor () {
             }
           })
 
-          if (t.isCallExpression(child) && child.callee.object.name === 'console') {
+          if (t.isCallExpression(child) && 
+                  child.callee && child.callee.object &&
+                  child.callee.object.name === 'console') {
             let code = child.arguments[0]
             path.insertAfter(assertTemplate(code, comment))
           } else {

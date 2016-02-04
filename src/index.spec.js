@@ -63,6 +63,15 @@ a = { "a": 1 };
 console.log(a);assert.deepEqual(a, { a: 1 });
 `)
   })
+  it('should add functioncall asserts', () => {
+    testGeneration(`
+a = { "a": 1 }
+foobar(a) //=> {a: 1}
+`, `
+a = { "a": 1 };
+assert.deepEqual(foobar(a), { a: 1 });
+`)
+  })
 
   it('should add Object property asserts', () => {
     testGeneration(`
