@@ -16,9 +16,9 @@
     "url": "http://laat.io"
   },
   "license": "MIT",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/laat/babel-plugin-transform-comment-to-assert.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/laat/babel-plugin-transform-comment-to-assert.git"
   },
   "devDependencies": {
     "babel-cli": "^6.4.0",
@@ -28,8 +28,8 @@
     "babel-register": "^6.4.3",
     "chai": "^3.4.1",
     "mocha": "^2.3.4",
-    "mocha-tap13": "^0.0.1",
-    "standard": "^5.4.1"
+    "mocha-tap13": "0.0.2",
+    "standard": "^6.0.8"
   },
   "files": [
     "lib"
