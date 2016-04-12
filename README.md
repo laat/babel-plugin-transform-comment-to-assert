@@ -3,8 +3,8 @@
 [![npm][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 
-[npm-image]: https://img.shields.io/npm/v/fen-chess-board.svg?style=flat
-[npm-url]: https://npmjs.org/package/fen-chess-board
+[npm-image]: https://img.shields.io/npm/v/babel-plugin-transform-comment-to-assert.svg?style=flat
+[npm-url]: https://npmjs.org/package/babel-plugin-transform-comment-to-assert
 [travis-image]: https://travis-ci.org/laat/babel-plugin-transform-comment-to-assert.svg?branch=master
 [travis-url]: https://travis-ci.org/laat/babel-plugin-transform-comment-to-assert
 
@@ -24,9 +24,9 @@ import traverse from 'babel-traverse'
 import generate from 'babel-generator'
 import { transform } from 'babel-core'
 
-function replace (code, original, replacement) {
+function replace (code) {
   const { ast } = transform(code)
-  traverse(ast, visitor({ replacement, original }).visitor)
+  traverse(ast, visitor().visitor)
   return generate(ast, {}, code).code.trim()
 }
 
