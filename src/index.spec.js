@@ -5,7 +5,7 @@ import generate from 'babel-generator';
 import { transform } from 'babel-core';
 import test from 'tape';
 
-test('should add string asserts', (t) => {
+test('commment-to-assert', (t) => {
   const testGeneration = (code, expectedCode, message) => {
     const { ast } = transform(code);
     traverse(ast, commentVisitor().visitor);
