@@ -1,4 +1,3 @@
-/* global describe, it */
 import commentVisitor from './index.js';
 import traverse from 'babel-traverse';
 import generate from 'babel-generator';
