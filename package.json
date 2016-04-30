@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-transform-comment-to-assert",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Replace commented expressions with assert statements",
   "main": "lib/index.js",
   "scripts": {
