@@ -1,8 +1,4 @@
-# babel-plugin-transform-comment-to-assert
-
-[![npm][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-
+# babel-plugin-transform-comment-to-assert [![Build Status][travis-image]][travis-url] [![npm][npm-image]][npm-url]
 [npm-image]: https://img.shields.io/npm/v/babel-plugin-transform-comment-to-assert.svg?style=flat
 [npm-url]: https://npmjs.org/package/babel-plugin-transform-comment-to-assert
 [travis-image]: https://travis-ci.org/laat/babel-plugin-transform-comment-to-assert.svg?branch=master
