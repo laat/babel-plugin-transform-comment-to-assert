@@ -54,6 +54,43 @@ replace("console.log('foo') //=> 'bar'")
 //=> "console.log('foo');assert.deepEqual('foo', 'bar');"
 ```
 
+Throws:
+
+```javascript
+replace(`
+const a = () => {
+  throw new Error('fail');
+};
+a() // throws Error
+`);
+/*=> `
+const a = () => {
+  throw new Error('fail');
+};
+assert.throws(() => {
+  a();
+}, Error);
+`.trim();
+*/
+```
+
+```javascript
+replace(`
+const a = () => {
+  throw new Error('fail');
+};
+a() // throws /fail/
+`);
+/*=> `
+const a = () => {
+  throw new Error('fail');
+};
+assert.throws(() => {
+  a();
+}, /fail/);
+`.trim();
+*/
+```
 ## License
 
 MIT © [Sigurd Fosseng](https://github.com/laat)
