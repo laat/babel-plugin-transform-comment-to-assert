@@ -7,6 +7,8 @@ const assertTemplate = template(`
 assert.deepEqual($0, $1)
 `);
 
+const arrowRegex = /^\s?(=>|→)/;
+
 export default function visitor() {
   return {
     visitor: {
@@ -14,11 +16,11 @@ export default function visitor() {
         const comments = path.node.trailingComments;
         if (comments &&
             comments.length > 0 &&
-            comments[0].value.match(/^=>/)) {
+            comments[0].value.match(arrowRegex)) {
           const child = path.node.expression;
           let comment;
 
-          const rawComment = comments[0].value.substring(2).trim();
+          const rawComment = comments[0].value.replace(arrowRegex, '').trim();
           const ast = babylon.parse(`return ${rawComment}`, {
             allowReturnOutsideFunction: true,
           });

@@ -66,3 +66,19 @@ a.foo //=> 1
 a = { "foo": 1 };
 assert.deepEqual(a.foo, 1);
 `, 'should add Object property asserts');
+
+testGeneration(`
+a = "foobar"
+a // => "foobar"
+`, `
+a = "foobar";
+assert.deepEqual(a, "foobar");
+`, 'add string asserts with space before arrow');
+
+testGeneration(`
+a = "foobar"
+a // → "foobar"
+`, `
+a = "foobar";
+assert.deepEqual(a, "foobar");
+`, 'add string asserts with space utf8 arrow');
