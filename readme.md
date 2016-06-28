@@ -63,14 +63,13 @@ const a = () => {
 };
 a() // throws Error
 `);
-/*=> `
-const a = () => {
+/*=>
+`const a = () => {
   throw new Error('fail');
 };
 assert.throws(() => {
   a();
-}, Error);
-`.trim();
+}, Error);`
 */
 ```
 
@@ -81,14 +80,13 @@ const a = () => {
 };
 a() // throws /fail/
 `);
-/*=> `
-const a = () => {
+/*=>
+`const a = () => {
   throw new Error('fail');
 };
 assert.throws(() => {
   a();
-}, /fail/);
-`.trim();
+}, /fail/);`
 */
 ```
 ## License
