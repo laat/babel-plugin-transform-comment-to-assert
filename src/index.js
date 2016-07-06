@@ -7,6 +7,12 @@ const assertTemplate = template(`
 assert.deepEqual($0, $1)
 `);
 
+const throwsTemplate = template(`
+assert.throws(() => { $0 } , $1);
+`);
+
+const arrowRegex = /^\s?(=>|→|throws)/;
+
 export default function visitor() {
   return {
     visitor: {
@@ -14,11 +20,14 @@ export default function visitor() {
         const comments = path.node.trailingComments;
         if (comments &&
             comments.length > 0 &&
-            comments[0].value.match(/^=>/)) {
+            comments[0].value.match(arrowRegex)) {
+          const matches = comments[0].value.match(arrowRegex);
+          const throws = matches[1] === 'throws';
+
           const child = path.node.expression;
           let comment;
 
-          const rawComment = comments[0].value.substring(2).trim();
+          const rawComment = comments[0].value.replace(arrowRegex, '').trim();
           const ast = babylon.parse(`return ${rawComment}`, {
             allowReturnOutsideFunction: true,
           });
@@ -32,10 +41,18 @@ export default function visitor() {
                   child.callee && child.callee.object &&
                   child.callee.object.name === 'console') {
             const code = child.arguments[0];
-            path.insertAfter(assertTemplate(code, comment));
+            if (throws) {
+              path.insertAfter(throwsTemplate(code, comment));
+            } else {
+              path.insertAfter(assertTemplate(code, comment));
+            }
           } else {
             path.node.trailingComments = comments.splice(1); // eslint-disable-line
-            path.replaceWith(assertTemplate(child, comment));
+            if (throws) {
+              path.replaceWith(throwsTemplate(child, comment));
+            } else {
+              path.replaceWith(assertTemplate(child, comment));
+            }
           }
         }
       },

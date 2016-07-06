@@ -66,3 +66,47 @@ a.foo //=> 1
 a = { "foo": 1 };
 assert.deepEqual(a.foo, 1);
 `, 'should add Object property asserts');
+
+testGeneration(`
+a = "foobar"
+a // => "foobar"
+`, `
+a = "foobar";
+assert.deepEqual(a, "foobar");
+`, 'add string asserts with space before arrow');
+
+testGeneration(`
+a = "foobar"
+a // → "foobar"
+`, `
+a = "foobar";
+assert.deepEqual(a, "foobar");
+`, 'add string asserts with space utf8 arrow');
+
+testGeneration(`
+const a = () => {
+  throw new Error('fail');
+};
+a() // throws /fail/
+`, `
+const a = () => {
+  throw new Error('fail');
+};
+assert.throws(() => {
+  a();
+}, /fail/);
+`, 'throws expression');
+
+testGeneration(`
+const a = () => {
+  throw new Error('fail');
+};
+a() // throws Error
+`, `
+const a = () => {
+  throw new Error('fail');
+};
+assert.throws(() => {
+  a();
+}, Error);
+`, 'throws expression');
