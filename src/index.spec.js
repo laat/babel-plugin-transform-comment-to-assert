@@ -1,8 +1,8 @@
-import commentVisitor from './index.js';
 import traverse from 'babel-traverse';
 import generate from 'babel-generator';
 import { transform } from 'babel-core';
 import assert from 'assert-simple-tap';
+import commentVisitor from './index.js';
 
 const testGeneration = (code, expectedCode, message) => {
   const { ast } = transform(code);
@@ -45,10 +45,12 @@ assert.deepEqual(a, { a: 1 });
 
 testGeneration(`
 a = { "a": 1 }
-console.log(a) //=> {a: 1}
+console.log(a); //=> {a: 1}
 `, `
 a = { "a": 1 };
-console.log(a);assert.deepEqual(a, { a: 1 });
+console.log(a); //=> {a: 1}
+
+assert.deepEqual(a, { a: 1 });
 `, 'should add console.log asserts');
 
 testGeneration(`
