@@ -40,6 +40,7 @@ export default function visitor() {
           if (t.isCallExpression(child) &&
                   child.callee && child.callee.object &&
                   child.callee.object.name === 'console') {
+            path.node.trailingComments = comments.splice(1); // eslint-disable-line
             const code = child.arguments[0];
             if (throws) {
               path.insertAfter(throwsTemplate(code, comment));
