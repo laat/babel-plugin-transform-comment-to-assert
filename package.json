@@ -37,11 +37,6 @@
   "files": [
     "lib"
   ],
-  "babel": {
-    "presets": [
-      "es2015"
-    ]
-  },
   "dependencies": {
     "babel-template": "^6.3.13",
     "babel-traverse": "^6.4.5",
