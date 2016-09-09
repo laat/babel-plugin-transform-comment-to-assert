@@ -16,16 +16,12 @@ $ npm install --save babel-plugin-transform-comment-to-assert
 ## Usage
 
 ```javascript
-import visitor from 'babel-plugin-transform-comment-to-assert'
-import traverse from 'babel-traverse'
-import generate from 'babel-generator'
-import { transform } from 'babel-core'
+import * as babel from 'babel-core'
+import plugin from 'babel-plugin-transform-comment-to-assert'
 
 function replace (code) {
-  const { ast } = transform(code)
-  traverse(ast, visitor().visitor)
-  return generate(ast, {}, code).code.trim()
-}
+  return babel.transform(code, { babelrc: false, plugins: [plugin] }).code.trim();
+};
 
 replace('1 //=> 1')
 //=> 'assert.deepEqual(1, 1);'

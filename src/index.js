@@ -1,19 +1,14 @@
-import traverse from 'babel-traverse';
-import template from 'babel-template';
-import * as babylon from 'babylon';
-import * as t from 'babel-types';
-
-const assertTemplate = template(`
-assert.deepEqual($0, $1)
-`);
-
-const throwsTemplate = template(`
-assert.throws(() => { $0 } , $1);
-`);
-
 const arrowRegex = /^\s?(=>|→|throws)/;
 
-export default function visitor() {
+export default function visitor({ types: t, template, transform }) {
+  const assertTemplate = template(`
+      assert.deepEqual($0, $1)
+  `);
+
+  const throwsTemplate = template(`
+      assert.throws(() => { $0 } , $1);
+  `);
+
   return {
     visitor: {
       ExpressionStatement(path) {
@@ -25,17 +20,9 @@ export default function visitor() {
           const throws = matches[1] === 'throws';
 
           const child = path.node.expression;
-          let comment;
 
           const rawComment = comments[0].value.replace(arrowRegex, '').trim();
-          const ast = babylon.parse(`return ${rawComment}`, {
-            allowReturnOutsideFunction: true,
-          });
-          traverse.cheap(ast, (node) => {
-            if (t.isReturnStatement(node)) {
-              comment = node.argument;
-            }
-          });
+          const comment = transform(`() => (${rawComment})`).ast.program.body[0].expression.body;
 
           if (t.isCallExpression(child) &&
                   child.callee && child.callee.object &&

@@ -1,14 +1,10 @@
-import traverse from 'babel-traverse';
-import generate from 'babel-generator';
-import { transform } from 'babel-core';
+import * as babel from 'babel-core';
 import assert from 'assert-simple-tap';
 import commentVisitor from './index.js';
 
 const testGeneration = (code, expectedCode, message) => {
-  const { ast } = transform(code);
-  traverse(ast, commentVisitor().visitor);
-  const transformedCode = generate(ast, {}, code).code;
-  assert.equal(transformedCode.trim(), expectedCode.trim(), message);
+  const actual = babel.transform(code, { babelrc: false, plugins: [commentVisitor] }).code;
+  assert.equal(actual.trim(), expectedCode.trim(), message);
 };
 
 testGeneration(`
