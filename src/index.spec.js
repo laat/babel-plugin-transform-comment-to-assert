@@ -44,9 +44,7 @@ a = { "a": 1 }
 console.log(a); //=> {a: 1}
 `, `
 a = { "a": 1 };
-console.log(a); //=> {a: 1}
-
-assert.deepEqual(a, { a: 1 });
+console.log(a);assert.deepEqual(a, { a: 1 });
 `, 'should add console.log asserts');
 
 testGeneration(`

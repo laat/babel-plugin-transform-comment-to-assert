@@ -47,7 +47,7 @@ It also supports `console.log`:
 
 ```javascript
 replace("console.log('foo') //=> 'bar'")
-//=> "console.log('foo'); //=> 'bar'\n\nassert.deepEqual('foo', 'bar');"
+//=> "console.log('foo');assert.deepEqual('foo', 'bar');"
 ```
 
 Throws:
