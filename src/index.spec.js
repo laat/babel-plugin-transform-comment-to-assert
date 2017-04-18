@@ -88,9 +88,7 @@ a() // throws /fail/
 const a = () => {
   throw new Error('fail');
 };
-assert.throws(() => {
-  a();
-}, /fail/);
+assert.throws(() => a(), /fail/);
 `, 'throws expression');
 
 testGeneration(`
@@ -102,7 +100,5 @@ a() // throws Error
 const a = () => {
   throw new Error('fail');
 };
-assert.throws(() => {
-  a();
-}, Error);
+assert.throws(() => a(), Error);
 `, 'throws expression');

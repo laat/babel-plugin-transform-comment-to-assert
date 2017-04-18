@@ -1,13 +1,33 @@
 const arrowRegex = /^\s?(=>|→|throws)/;
 
-export default function visitor({ types: t, template, transform }) {
-  const assertTemplate = template(`
-      assert.deepEqual($0, $1)
-  `);
+export default function visitor({ types: t, transform }) {
+  const assertExpression = (actual, expected, loc) => {
+    const exp = t.callExpression(
+      t.memberExpression(
+        t.identifier('assert'),
+        t.identifier('deepEqual'),
+      ), [
+        actual,
+        expected,
+      ]
+    );
+    exp.loc = loc;
+    return exp;
+  };
 
-  const throwsTemplate = template(`
-      assert.throws(() => { $0 } , $1);
-  `);
+  const throwsExpression = (body, arg, loc) => {
+    const exp = t.callExpression(
+      t.memberExpression(
+        t.identifier('assert'),
+        t.identifier('throws'),
+      ), [
+        t.arrowFunctionExpression([], body),
+        arg,
+      ]
+    );
+    exp.loc = loc;
+    return exp;
+  };
 
   return {
     visitor: {
@@ -21,6 +41,7 @@ export default function visitor({ types: t, template, transform }) {
 
           const child = path.node.expression;
 
+          const commentLoc = comments[0].loc;
           const rawComment = comments[0].value.replace(arrowRegex, '').trim();
           const comment = transform(`() => (${rawComment})`).ast.program.body[0].expression.body;
 
@@ -30,16 +51,16 @@ export default function visitor({ types: t, template, transform }) {
             path.node.trailingComments = comments.splice(1); // eslint-disable-line
             const code = child.arguments[0];
             if (throws) {
-              path.insertAfter(throwsTemplate(code, comment));
+              path.insertAfter(t.expressionStatement(throwsExpression(code, comment, commentLoc)));
             } else {
-              path.insertAfter(assertTemplate(code, comment));
+              path.insertAfter(t.expressionStatement(assertExpression(code, comment, commentLoc)));
             }
           } else {
             path.node.trailingComments = comments.splice(1); // eslint-disable-line
             if (throws) {
-              path.replaceWith(throwsTemplate(child, comment));
+              path.replaceWith(throwsExpression(child, comment, commentLoc));
             } else {
-              path.replaceWith(assertTemplate(child, comment));
+              path.replaceWith(assertExpression(child, comment, commentLoc));
             }
           }
         }
