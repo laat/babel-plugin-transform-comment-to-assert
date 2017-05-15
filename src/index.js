@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 const arrowRegex = /^\s?(=>|→|throws)/;
 
 export default function visitor({ types: t, transform }) {

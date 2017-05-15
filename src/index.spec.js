@@ -1,6 +1,6 @@
 import * as babel from 'babel-core';
 import assert from 'assert-simple-tap';
-import commentVisitor from './index.js';
+import commentVisitor from './index';
 
 const testGeneration = (code, expectedCode, message) => {
   const actual = babel.transform(code, { babelrc: false, plugins: [commentVisitor] }).code;
