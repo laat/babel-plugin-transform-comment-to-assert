@@ -9,7 +9,11 @@
     "test:readme": "readme-assert --main './src' --require babel-register",
     "test": "npm-run-all lint test:*",
     "lint": "eslint src",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,json,css}": ["prettier --write", "git add"]
   },
   "author": {
     "name": "Sigurd Fosseng",
@@ -19,7 +23,8 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/laat/babel-plugin-transform-comment-to-assert.git"
+    "url":
+      "https://github.com/laat/babel-plugin-transform-comment-to-assert.git"
   },
   "devDependencies": {
     "assert-simple-tap": "^2.0.1",
@@ -27,13 +32,15 @@
     "babel-core": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.24.1",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint": "^4.6.1",
+    "eslint-config-airbnb-base": "^12.0.0",
+    "eslint-config-prettier": "^2.4.0",
     "eslint-plugin-import": "^2.2.0",
+    "husky": "^0.14.3",
+    "lint-staged": "^4.1.3",
     "npm-run-all": "^4.0.2",
+    "prettier": "^1.6.1",
     "readme-assert": "^5.0.5"
   },
-  "files": [
-    "lib"
-  ]
+  "files": ["lib"]
 }
