@@ -6,19 +6,23 @@ const arrowRegex = /^\s?(=>|→|throws)/;
 export default declare(function visitor(api) {
   const { types: t, transform } = api;
   api.assertVersion(7);
-  const assertExpression = (actual, expected, loc) => {
+  const assertExpression = (actual, expected, loc, message) => {
     const exp = t.callExpression(
       t.memberExpression(t.identifier('assert'), t.identifier('deepEqual')),
-      [actual, expected]
+      [actual, expected, ...(message ? [t.stringLiteral(message)] : [])]
     );
     exp.loc = loc;
     return exp;
   };
 
-  const throwsExpression = (body, arg, loc) => {
+  const throwsExpression = (body, arg, loc, message) => {
     const exp = t.callExpression(
       t.memberExpression(t.identifier('assert'), t.identifier('throws')),
-      [t.arrowFunctionExpression([], body), arg]
+      [
+        t.arrowFunctionExpression([], body),
+        arg,
+        ...(message ? [t.stringLiteral(message)] : []),
+      ]
     );
     exp.loc = loc;
     return exp;
@@ -26,8 +30,9 @@ export default declare(function visitor(api) {
 
   return {
     visitor: {
-      ExpressionStatement(path) {
+      ExpressionStatement(path, state) {
         const comments = path.node.trailingComments;
+        const message = state.opts && state.opts.message;
         if (
           comments &&
           comments.length > 0 &&
@@ -56,21 +61,25 @@ export default declare(function visitor(api) {
             if (throws) {
               path.insertAfter(
                 t.expressionStatement(
-                  throwsExpression(code, comment, commentLoc)
+                  throwsExpression(code, comment, commentLoc, message)
                 )
               );
             } else {
               path.insertAfter(
                 t.expressionStatement(
-                  assertExpression(code, comment, commentLoc)
+                  assertExpression(code, comment, commentLoc, message)
                 )
               );
             }
           } else {
             if (throws) {
-              path.replaceWith(throwsExpression(child, comment, commentLoc));
+              path.replaceWith(
+                throwsExpression(child, comment, commentLoc, message)
+              );
             } else {
-              path.replaceWith(assertExpression(child, comment, commentLoc));
+              path.replaceWith(
+                assertExpression(child, comment, commentLoc, message)
+              );
             }
           }
         }
