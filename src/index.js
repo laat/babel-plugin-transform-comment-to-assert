@@ -1,7 +1,11 @@
 /* eslint-disable comma-dangle */
+import { declare } from '@babel/helper-plugin-utils';
+
 const arrowRegex = /^\s?(=>|→|throws)/;
 
-export default function visitor({ types: t, transform }) {
+export default declare(function visitor(api) {
+  const { types: t, transform } = api;
+  api.assertVersion(7);
   const assertExpression = (actual, expected, loc) => {
     const exp = t.callExpression(
       t.memberExpression(t.identifier('assert'), t.identifier('deepEqual')),
@@ -31,21 +35,23 @@ export default function visitor({ types: t, transform }) {
         ) {
           const matches = comments[0].value.match(arrowRegex);
           const throws = matches[1] === 'throws';
-
+          if (path.node.type !== 'ExpressionStatement') {
+            return;
+          }
           const child = path.node.expression;
-
           const commentLoc = comments[0].loc;
           const rawComment = comments[0].value.replace(arrowRegex, '').trim();
-          const comment = transform(`() => (${rawComment})`).ast.program.body[0]
-            .expression.body;
 
+          const comment = transform(`() => (${rawComment})`, { ast: true }).ast
+            .program.body[0].expression.body;
+
+          path.node.trailingComments = comments.splice(1);
           if (
             t.isCallExpression(child) &&
             child.callee &&
             child.callee.object &&
             child.callee.object.name === 'console'
           ) {
-            path.node.trailingComments = comments.splice(1); // eslint-disable-line
             const code = child.arguments[0];
             if (throws) {
               path.insertAfter(
@@ -61,7 +67,6 @@ export default function visitor({ types: t, transform }) {
               );
             }
           } else {
-            path.node.trailingComments = comments.splice(1); // eslint-disable-line
             if (throws) {
               path.replaceWith(throwsExpression(child, comment, commentLoc));
             } else {
@@ -72,4 +77,4 @@ export default function visitor({ types: t, transform }) {
       },
     },
   };
-}
+});

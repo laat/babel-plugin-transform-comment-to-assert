@@ -1,13 +1,16 @@
-import * as babel from 'babel-core';
+import * as babel from '@babel/core';
+import prettier from 'prettier';
 import assert from 'assert-simple-tap';
 import commentVisitor from './index';
 
 const testGeneration = (code, expectedCode, message) => {
-  const actual = babel.transform(code, {
+  const actualCode = babel.transform(code, {
     babelrc: false,
     plugins: [commentVisitor],
   }).code;
-  assert.equal(actual.trim(), expectedCode.trim(), message);
+  const actual = prettier.format(actualCode.split(/\s/).join(''));
+  const expected = prettier.format(expectedCode.split(/\s/).join(''));
+  assert.equal(actual, expected, message);
 };
 
 testGeneration(
