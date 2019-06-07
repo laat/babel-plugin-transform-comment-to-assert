@@ -158,7 +158,11 @@ const testMessageGeneration = (code, expectedCode, message) => {
     babelrc: false,
     plugins: [[commentVisitor, { message }]],
   }).code;
-  assert.equal(format(actualCode), format(expectedCode), message);
+  assert.equal(
+    format(actualCode),
+    format(expectedCode),
+    'with message: ' + message
+  );
 };
 
 testMessageGeneration(
