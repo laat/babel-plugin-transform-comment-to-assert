@@ -1,4 +1,5 @@
 # babel-plugin-transform-comment-to-assert [![travis][travis-image]][travis-url] [![npm][npm-image]][npm-url]
+
 [travis-image]: https://img.shields.io/travis/laat/babel-plugin-transform-comment-to-assert.svg?style=flat
 [travis-url]: https://travis-ci.org/laat/babel-plugin-transform-comment-to-assert
 [npm-image]: https://img.shields.io/npm/v/babel-plugin-transform-comment-to-assert.svg?style=flat
@@ -14,72 +15,65 @@ $ npm install --save babel-plugin-transform-comment-to-assert
 
 ## Usage
 
-```javascript
-import * as babel from 'babel-core'
-import plugin from 'babel-plugin-transform-comment-to-assert'
+```javascript test
+import * as babel from "@babel/core";
+import plugin from "babel-plugin-transform-comment-to-assert";
 
-function replace (code) {
-  return babel.transform(code, { babelrc: false, plugins: [plugin] }).code.trim();
-};
+function replace(code) {
+  return babel
+    .transform(code, { babelrc: false, plugins: [plugin] })
+    .code.replace(/\n/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
-replace('1 //=> 1')
+replace("1 //=> 1");
 //=> 'assert.deepEqual(1, 1);'
-
 ```
 
 Objects:
 
-```javascript
-
-replace('a = { a: 1 }; a //=> {a: 1}')
-//=> 'a = { a: 1 };assert.deepEqual(a, { a: 1 });'
+```javascript test
+replace("a = { a: 1 }; a //=> {a: 1}");
+//=> 'a = { a: 1 }; assert.deepEqual(a, { a: 1 });'
 ```
 
 Results of function calls:
 
-```javascript
-replace("(() => 'foo')() //=> 'bar'")
+```javascript test
+replace("(() => 'foo')() //=> 'bar'");
 //=> "assert.deepEqual((() => 'foo')(), 'bar');"
 ```
 
 It also supports `console.log`:
 
-```javascript
-replace("console.log('foo') //=> 'bar'")
-//=> "console.log('foo');assert.deepEqual('foo', 'bar');"
+```javascript test
+replace("console.log('foo') //=> 'bar'");
+//=> "console.log('foo'); assert.deepEqual('foo', 'bar');"
 ```
 
 Throws:
 
-```javascript
+```javascript test
 replace(`
 const a = () => {
   throw new Error('fail');
 };
 a() // throws Error
 `);
-/*=>
-`const a = () => {
-  throw new Error('fail');
-};
-assert.throws(() => a(), Error);`
-*/
+//=> `const a = () => { throw new Error('fail'); }; assert.throws(() => a(), Error);`
 ```
 
-```javascript
+```javascript test
 replace(`
 const a = () => {
   throw new Error('fail');
 };
 a() // throws /fail/
 `);
-/*=>
-`const a = () => {
-  throw new Error('fail');
-};
-assert.throws(() => a(), /fail/);`
-*/
+//*=> `const a = () => { throw new Error('fail'); }; assert.throws(() => a(), /fail/);`
 ```
+
 ## License
 
 MIT © [Sigurd Fosseng](https://github.com/laat)

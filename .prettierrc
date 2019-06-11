@@ -1,6 +1,0 @@
-{
-  "printWidth": 80,
-  "parser": "flow",
-  "trailingComma": "es5",
-  "singleQuote": true
-}

@@ -2,24 +2,29 @@
   "name": "babel-plugin-transform-comment-to-assert",
   "version": "4.1.0",
   "description": "Replace commented expressions with assert statements",
-  "main": "lib/index.js",
-  "scripts": {
-    "build": "babel src/. -d lib/. --ignore=spec.js",
-    "test:spec": "babel-node src/index.spec.js",
-    "#test:readme": "readme-assert --main './src'",
-    "test": "npm-run-all test:*",
-    "prepublish": "npm run build",
-    "precommit": "lint-staged"
+  "repository": {
+    "type": "git",
+    "url":
+      "https://github.com/laat/babel-plugin-transform-comment-to-assert.git"
   },
+  "license": "MIT",
   "author": {
     "name": "Sigurd Fosseng",
     "email": "sigurd@fosseng.net",
     "url": "http://laat.io"
   },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/laat/babel-plugin-transform-comment-to-assert.git"
+  "files": ["lib"],
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel src/. -d lib/. --ignore=spec.js",
+    "precommit": "lint-staged",
+    "prepublish": "npm run build",
+    "test": "npm-run-all test:*",
+    "test:readme": "readme-assert -r @babel/register --main './src'",
+    "test:spec": "babel-node src/index.spec.js"
+  },
+  "dependencies": {
+    "@babel/helper-plugin-utils": "^7.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -36,12 +41,6 @@
     "lint-staged": "^4.1.3",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.6.1",
-    "readme-assert": "^5.0.5"
-  },
-  "files": [
-    "lib"
-  ],
-  "dependencies": {
-    "@babel/helper-plugin-utils": "^7.0.0"
+    "readme-assert": "^6.0.1"
   }
 }
