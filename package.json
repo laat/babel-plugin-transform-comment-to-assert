@@ -33,7 +33,7 @@
     "@babel/preset-env": "^7.0.0",
     "@babel/register": "^7.0.0",
     "@types/babel__core": "^7.1.2",
-    "assert-simple-tap": "^2.0.1",
+    "assert-simple-tap": "^3.0.0",
     "eslint": "^4.6.1",
     "eslint-config-airbnb-base": "^12.0.0",
     "eslint-config-prettier": "^6.0.0",
