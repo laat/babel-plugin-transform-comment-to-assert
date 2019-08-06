@@ -34,7 +34,7 @@
     "@babel/register": "^7.0.0",
     "@types/babel__core": "^7.1.2",
     "assert-simple-tap": "^3.0.0",
-    "eslint": "^4.6.1",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.2.0",
