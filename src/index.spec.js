@@ -3,7 +3,7 @@ import prettier from 'prettier';
 import assert from 'assert-simple-tap';
 import commentVisitor from './index';
 
-const format = value => prettier.format(value.split(/\s/).join(''));
+const format = value => prettier.format(value.split(/\s/).join(''), { parser: 'babel'});
 
 const testGeneration = (code, expectedCode, message) => {
   const actualCode = babel.transform(code, {
