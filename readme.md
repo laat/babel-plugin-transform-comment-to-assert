@@ -1,7 +1,5 @@
-# babel-plugin-transform-comment-to-assert [![travis][travis-image]][travis-url] [![npm][npm-image]][npm-url]
+# babel-plugin-transform-comment-to-assert [![npm][npm-image]][npm-url]
 
-[travis-image]: https://img.shields.io/travis/laat/babel-plugin-transform-comment-to-assert.svg?style=flat
-[travis-url]: https://travis-ci.org/laat/babel-plugin-transform-comment-to-assert
 [npm-image]: https://img.shields.io/npm/v/babel-plugin-transform-comment-to-assert.svg?style=flat
 [npm-url]: https://npmjs.org/package/babel-plugin-transform-comment-to-assert
 
