@@ -21,7 +21,7 @@
     "precommit": "lint-staged",
     "prepublish": "npm run build",
     "test": "npm-run-all test:*",
-    "test:readme": "readme-assert -r @babel/register --main './src'",
+    "#test:readme": "readme-assert -r @babel/register --main './src'",
     "test:spec": "babel-node src/index.spec.js"
   },
   "dependencies": {
